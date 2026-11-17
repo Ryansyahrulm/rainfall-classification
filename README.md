@@ -6,7 +6,7 @@ Program Python yang mensimulasikan Mini Computer sederhana untuk mengklasifikasi
 
 ## Anggota
 
-- Ryan Sahrul Muharam (257006111135)
+- Ryan Syahrul Muharam (257006111135)
 - Febriana Nugraha (257006111129)
 - Muhamad Alfian Holidi (257006111136)
 - Fahmi Miftahudin (257006111146)
