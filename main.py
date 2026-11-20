@@ -1,14 +1,11 @@
-# ============================================================
-# Simulasi Klasifikasi Intensitas Curah Hujan (Mini Computer)
-# Mata Kuliah: Organisasi dan Arsitektur Komputer
-# Kelas E / Kelompok 12
-# ============================================================
-
-# ---------------- a. Memory ----------------
+# Memory
 memory = {
-    10: 35,                      # curah_hujan (R, mm/hari)
-    11: 0.5, 12: 20, 13: 50,     # batas_1 .. batas_3
-    14: 100, 15: 150,            # batas_4 .. batas_5
+    10: 0,   # Nilai Curah Hujan                   
+    11: 0.5,
+    12: 20,
+    13: 50,
+    14: 100,
+    15: 150,
     20: "Tidak hujan",
     21: "Hujan ringan",
     22: "Hujan sedang",
@@ -18,67 +15,65 @@ memory = {
     26: "Input tidak valid",
 }
 
-# ---------------- b. Register ----------------
+# Register
 ACC = 0    # accumulator
 PC = 1     # program counter (nomor baris program)
 
-# ---------------- c. Daftar instruksi ----------------
-# Program: Klasifikasi Intensitas Curah Hujan
-# M[x] = isi memory alamat x, R = M[10] (curah hujan)
+# Daftar instruksi
 program = {
     # --- Validasi input ---
-     1: ("LOAD", 10),   # ACC = M[10] (R)
-     2: ("JN", 29),     # Jika ACC < 0 (R negatif) -> lompat ke baris 29
+     1: ("LOAD", 10), 
+     2: ("JN", 29),   
 
     # --- Cek 1: R < 0,5 ? ---
-     3: ("SUB", 11),    # ACC = ACC - M[11] (R - 0,5)
-     4: ("JN", 19),     # Jika ACC < 0 -> lompat ke baris 19 (Tidak hujan)
+     3: ("SUB", 11),
+     4: ("JN", 19),
 
     # --- Cek 2: R < 20 ? ---
-     5: ("LOAD", 10),   # ACC = M[10] (R dimuat ulang)
-     6: ("SUB", 12),    # ACC = ACC - M[12] (R - 20)
-     7: ("JN", 21),     # Jika ACC < 0 -> lompat ke baris 21 (Hujan ringan)
+     5: ("LOAD", 10),
+     6: ("SUB", 12),
+     7: ("JN", 21),
 
     # --- Cek 3: R < 50 ? ---
-     8: ("LOAD", 10),   # ACC = M[10] (R dimuat ulang)
-     9: ("SUB", 13),    # ACC = ACC - M[13] (R - 50)
-    10: ("JN", 23),     # Jika ACC < 0 -> lompat ke baris 23 (Hujan sedang)
+     8: ("LOAD", 10),
+     9: ("SUB", 13),
+    10: ("JN", 23),
 
     # --- Cek 4: R < 100 ? ---
-    11: ("LOAD", 10),   # ACC = M[10] (R dimuat ulang)
-    12: ("SUB", 14),    # ACC = ACC - M[14] (R - 100)
-    13: ("JN", 25),     # Jika ACC < 0 -> lompat ke baris 25 (Hujan lebat)
+    11: ("LOAD", 10),
+    12: ("SUB", 14),
+    13: ("JN", 25),
 
     # --- Cek 5: R < 150 ? ---
-    14: ("LOAD", 10),   # ACC = M[10] (R dimuat ulang)
-    15: ("SUB", 15),    # ACC = ACC - M[15] (R - 150)
-    16: ("JN", 27),     # Jika ACC < 0 -> lompat ke baris 27 (Hujan sangat lebat)
+    14: ("LOAD", 10),
+    15: ("SUB", 15),
+    16: ("JN", 27),
 
     # --- R >= 150 ---
-    17: ("PRINT", 25),  # Tampilkan M[25] ("Hujan ekstrem")
-    18: ("HALT", None), # Hentikan program
+    17: ("PRINT", 25),
+    18: ("HALT", None),
 
     # --- Blok keluaran ---
-    19: ("PRINT", 20),  # Tampilkan M[20] ("Tidak hujan")
-    20: ("HALT", None), # Hentikan program
-    21: ("PRINT", 21),  # Tampilkan M[21] ("Hujan ringan")
-    22: ("HALT", None), # Hentikan program
-    23: ("PRINT", 22),  # Tampilkan M[22] ("Hujan sedang")
-    24: ("HALT", None), # Hentikan program
-    25: ("PRINT", 23),  # Tampilkan M[23] ("Hujan lebat")
-    26: ("HALT", None), # Hentikan program
-    27: ("PRINT", 24),  # Tampilkan M[24] ("Hujan sangat lebat")
-    28: ("HALT", None), # Hentikan program
-    29: ("PRINT", 26),  # Tampilkan M[26] ("Input tidak valid")
-    30: ("HALT", None), # Hentikan program
+    19: ("PRINT", 20),
+    20: ("HALT", None),
+    21: ("PRINT", 21),
+    22: ("HALT", None),
+    23: ("PRINT", 22),
+    24: ("HALT", None),
+    25: ("PRINT", 23),
+    26: ("HALT", None),
+    27: ("PRINT", 24),
+    28: ("HALT", None),
+    29: ("PRINT", 26),
+    30: ("HALT", None),
 }
 
 
-# ---------------- d. Proses eksekusi instruksi ----------------
+# Proses eksekusi instruksi
 def jalankan(R, jejak=True):
     global ACC, PC
-    memory[10] = R          # isi input
-    ACC, PC = 0, 1          # reset register
+    memory[10] = R          
+    ACC, PC = 0, 1          
     jumlah = 0
     hasil = None
 
@@ -88,7 +83,7 @@ def jalankan(R, jejak=True):
     while True:
         instruksi, alamat = program[PC]
         acc_sebelum, baris = ACC, PC
-        PC += 1                                  # default: baris berikutnya
+        PC += 1                                 
         ket = ""
 
         if instruksi == "LOAD":
@@ -120,7 +115,7 @@ def jalankan(R, jejak=True):
     return hasil, jumlah
 
 
-# ---------------- e. Keterangan rentang klasifikasi ----------------
+# Rentang klasifikasi
 def tampilkan_rentang():
     print("=" * 56)
     print(" KETERANGAN KLASIFIKASI INTENSITAS CURAH HUJAN")
@@ -137,25 +132,24 @@ def tampilkan_rentang():
     print()
 
 
-# ---------------- f. Input dari pengguna ----------------
+# Input dari pengguna
 def baca_input():
-    """Minta R dari pengguna; ulangi sampai yang dimasukkan berupa angka."""
     while True:
         teks = input("Masukkan curah hujan R (mm/hari): ").strip()
-        teks = teks.replace(",", ".")            # terima koma desimal (12,5)
+        teks = teks.replace(",", ".")
         try:
             return float(teks)
         except ValueError:
             print("Input harus berupa angka, coba lagi.\n")
 
 
-# ---------------- Program utama ----------------
+# Program utama
 if __name__ == "__main__":
     tampilkan_rentang()
 
     while True:
         R = baca_input()
-        print(f"\n======================== Jejak eksekusi R = {R:g} ========================")
+        print(f"\n======================== Hasil Perhitungan ========================")
         hasil, n = jalankan(R)
         print(f"\nKategori: {hasil} ({n} instruksi dijalankan)\n")
 
