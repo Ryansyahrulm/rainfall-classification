@@ -92,7 +92,7 @@ def jalankan(R, jejak=True):
             ACC = ACC - memory[alamat]
         elif instruksi == "JN":
             if ACC < 0:
-                PC = alamat                      # lompat
+                PC = alamat                      
                 ket = f"ACC < 0, lompat ke baris {alamat}"
             else:
                 ket = "ACC >= 0, tidak lompat"
@@ -114,24 +114,6 @@ def jalankan(R, jejak=True):
 
     return hasil, jumlah
 
-
-# Rentang klasifikasi
-def tampilkan_rentang():
-    print("=" * 56)
-    print(" KETERANGAN KLASIFIKASI INTENSITAS CURAH HUJAN")
-    print(" (R = curah hujan dalam mm/hari)")
-    print("=" * 56)
-    print(" R < 0\t\t\t: Input tidak valid")
-    print(" 0 <= R < 0.5\t\t: Tidak hujan")
-    print(" 0.5 <= R < 20\t\t: Hujan ringan")
-    print(" 20 <= R < 50\t\t: Hujan sedang")
-    print(" 50 <= R < 100\t\t: Hujan lebat")
-    print(" 100 <= R < 150\t\t: Hujan sangat lebat")
-    print(" R >= 150\t\t: Hujan ekstrem")
-    print("=" * 56)
-    print()
-
-
 # Input dari pengguna
 def baca_input():
     while True:
@@ -145,8 +127,9 @@ def baca_input():
 
 # Program utama
 if __name__ == "__main__":
-    tampilkan_rentang()
-
+    print("============================================")
+    print("=== SIMULATOR MINI COMPUTER: CURAH HUJAN ===")
+    print("============================================")
     while True:
         R = baca_input()
         print(f"\n======================== Hasil Perhitungan ========================")
